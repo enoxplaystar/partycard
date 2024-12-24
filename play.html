@@ -1,0 +1,68 @@
+<html>
+<head>
+<style>
+@font-face {
+        font-family: dotMatrix;
+        src: url(./resources/dotmatrix.ttf);
+}
+
+.dotmatrix {
+        font-family: dotMatrix;
+}
+
+body {
+        background: #aa8888;
+}
+</style>
+<script>
+setInterval(function() {
+var div = document.getElementById('rfid');
+
+  div.innerHTML += 'Scanning...';
+
+  try {
+    const ndef = new NDEFReader();
+
+    ndef.addEventListener("readingerror", () => {
+    div.innerHTML += 'Error!';
+    });
+
+    ndef.addEventListener("reading", ({ message, serialNumber }) => {
+    div.innerHTML += 'Got tag! ' + serialNumber;
+    });
+
+    ndef.scan();
+
+  } catch (error) {
+    div.innerHTML += 'Error: ' + error;
+  }
+}, 1000);
+</script>
+
+        <link rel="stylesheet" href="./resources/player.css">
+</head>
+
+<body>
+
+<div id="radio" style="position: relative; margin: 0 auto; padding-top: 32px; width: 80%; height: 256px; background: rgb(34,34,34); background: linear-gradient(180deg, rgba(14,14,14,1) 0%, rgba(25,29,25,1) 35%, rgba(14,14,14,1) 100%); filter: drop-shadow(0px 10px 8px #000000); z-index: 9;">
+        <div class="badge"><img src="./resources/badge.png" height="80%" width="100%"></div>
+        <div id="display" style="position: absolute; top: 50px; left: 27%; background: #000000; width: 384px; height: 120px; border-style: solid; border-radius: 5px; margin-bottom: 20px; border-left: 8px solid #091111; border-top: 8px solid #091111; border-bottom: 8px solid #111818; border-right: 8px solid #111818;">
+                <div id="container" style="position: absolute; top: 12px; left: 8px; width: 368px; height: 100px; filter: blur(1px);"></div>
+                <div style="position: absolute; top: 10px; left: 6px; width: 380px; height: 104px; z-index: 9; opacity: 0.5"><img src="./resources/mesh.png" height="100%" width="100%"></div>
+                <div style="position: absolute; top: 0px; left: 0px; width: 100%; height: 100%; z-index: 10; opacity: 0.4;"><img src="./resources/lens.png" height="100%" width="100%"></div>
+        </div>
+</div>
+<div class="stack" style="position: relative; margin: 0 auto; width: 80%; height: 32px; background: #aa8888; z-index: 1;">
+        <div class="foot" style="position: absolute; top: 0px; left: 100px; width: 160px; height: 32px; background: rgb(108,108,108); background: linear-gradient(90deg, rgba(108,108,108,1) 0%, rgba(196,196,196,1) 50%, rgba(108,108,108,1) 100%);"> </div>
+        <div class="foot" style="position: absolute; top: 0px; left: 620px; width: 160px; height: 32px; background: rgb(108,108,108); background: linear-gradient(90deg, rgba(108,108,108,1) 0%, rgba(196,196,196,1) 50%, rgba(108,108,108,1) 100%);"> </div>
+</div>
+
+<div id="rfid">
+Log:
+</div>
+
+<audio id="audio" controls crossorigin></audio>
+
+</body>
+</html>
+
